@@ -300,7 +300,7 @@ st.download_button(
     data=generiere_html_tabelle(aktuelle_te_daten, ziel, geschlecht_wahl, ft, sbe_ziel, te_wahl.split(":")[0]),
     file_name=f"Skispringen_{ziel.replace(' ', '_')}.html",
     mime="text/html"
-)
+) 
 
 col_f1, col_f2, col_f3 = st.columns([1, 2, 1])
 with col_f2:
