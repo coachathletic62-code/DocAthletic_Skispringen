@@ -292,7 +292,7 @@ def generiere_html_tabelle(daten, athlet, geschlecht, ft, sbe, te_titel):
     raw_html += "</tbody></table></div>"
     return textwrap.dedent(raw_html)
 
-st.markdown(generiere_html_tabelle(aktuelle_te_daten, ziel, geschlecht_wahl, ft, sbe_ziel, te_wahl.split(":")[0]), unsafe_allow_html=True)
+st.markdown(generiere_html_tabelle(aktuelle_te_daten, ziel, geschlecht_wahl, ft, sbe_ziel, te_wahl.split(":")[0]), unsafe_allow_html=True) 
 
 st.markdown("---")
 st.download_button(
