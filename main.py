@@ -292,15 +292,17 @@ def generiere_html_tabelle(daten, athlet, geschlecht, ft, sbe, te_titel):
     raw_html += "</tbody></table></div>"
     return textwrap.dedent(raw_html)
 
-st.markdown(generiere_html_tabelle(aktuelle_te_daten, ziel, geschlecht_wahl, ft, sbe_ziel, te_wahl.split(":")[0]), unsafe_allow_html=True) 
+html_matrix = generiere_html_tabelle(aktuelle_te_daten, ziel, geschlecht_wahl, ft, sbe_ziel, te_wahl.split(" ")[0])
+st.markdown(html_matrix, unsafe_allow_html=True)
 
 st.markdown("---")
 st.download_button(
-    label="💾 Trainingsplan als HTML direkt im Download-Ordner speichern",
-    data=generiere_html_tabelle(aktuelle_te_daten, ziel, geschlecht_wahl, ft, sbe_ziel, te_wahl.split(":")[0]),
+    label="📥 Trainingsplan als HTML direkt im Download-Ordner speichern",
+    data=html_matrix,
     file_name=f"Skispringen_{ziel.replace(' ', '_')}.html",
-    mime="text/html"
-) 
+    mime="text/html")
+
+
 
 col_f1, col_f2, col_f3 = st.columns([1, 2, 1])
 with col_f2:
