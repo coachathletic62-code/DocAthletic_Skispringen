@@ -1,12 +1,13 @@
 # ==============================================================================
-# DOC ATHLETIC EVOLUTION - SKISPRINGEN (Version 35.1)
-# Architektur: 12-Einheiten-Matrix, Symmetrie-Fokus & Kurzsprint-Skalierung
+# DOC ATHLETIC EVOLUTION - SKISPRINGEN (Version 35.2)
+# Architektur: Fehlerbereinigte HTML-Rendering (Dedent), Kader-Datenbank & Trainingsteuerung
 # ==============================================================================
 import streamlit as st
 import pandas as pd
 import os
+import textwrap
 
-st.set_page_config(page_title="Doc Athletic Evolution - Skispringen 35.1", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Doc Athletic Evolution - Skispringen 35.2", layout="wide", initial_sidebar_state="collapsed")
 
 st.markdown("""
 <style>
@@ -44,7 +45,6 @@ def lade_bild(dateinamen_liste, use_col=False):
             return True
     return False
 
-# Authentifizierung
 if 'auth_modus' not in st.session_state:
     st.session_state.auth_modus = None
 
@@ -52,7 +52,7 @@ if st.session_state.auth_modus is None:
     col_11, col_12, col_13 = st.columns([1, 2, 1])
     with col_12:
         lade_bild(["logo.png", "logo.png.png", "logo"], use_col=True)
-        st.markdown("<p style='text-align: center; color: #c5c6c7; margin-top: 20px;'>Bitte Zugriffscode eingeben (Skispringen v35.1)</p>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; color: #c5c6c7; margin-top: 20px;'>Bitte Zugriffscode eingeben (Skispringen v35.2)</p>", unsafe_allow_html=True)
         col_p1, col_p2, col_p3 = st.columns([1, 2, 1])
         with col_p2:
             eingabe_code = st.text_input("Zugriffscode", type="password")
@@ -67,23 +67,46 @@ if st.session_state.auth_modus is None:
                     st.error("Ungültiger Code.")
     st.stop()
 
-st.markdown("<h1 style='text-align: center; color: #66fcf1 !important;'>DOC ATHLETIC EVOLUTION 35.1</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #c5c6c7;'>Modul: Skispringen (Kombination Kraft, Sensorik & Seitensymmetrie)</p>", unsafe_allow_html=True)
-st.markdown("<div style='text-align: center;'><span class='badge-ski'>Wettkampfsteuerung Skispringen aktiv</span></div><br>", unsafe_allow_html=True)
+# Kader-Datenbank Skispringen im Session State verankern
+if 'skisprung_kader_db' not in st.session_state:
+    st.session_state.skisprung_kader_db = {
+        "Skisprung Kader A": {"alter": 18, "groesse": 1.78, "fasertyp": "Sprungkraft (Fast-Twitch IIx)", "reife": "Normalentwickler", "sbe": "SR 1"},
+        "Skisprung Talent U16": {"alter": 15, "groesse": 1.70, "fasertyp": "Sprungkraft (Fast-Twitch IIx)", "reife": "Spätentwickler (Retardiert)", "sbe": "SR 2"}
+    }
+
+st.markdown("<h1 style='text-align: center; color: #66fcf1 !important;'>DOC ATHLETIC EVOLUTION 35.2</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #c5c6c7;'>Modul: Skispringen (Trainingsteuerung, Kraft & Symmetrie)</p>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center;'><span class='badge-ski'>Trainingsteuerung Skispringen aktiv</span></div><br>", unsafe_allow_html=True)
 
 st.markdown("<div class='steuermatrix'>", unsafe_allow_html=True)
-st.markdown("### Biometrische Live-Steuerung")
+st.markdown("### Biometrische Live-Steuerung & Athleten-Auswahl")
 
 c1, c2, c3, c4 = st.columns(4)
 with c1:
-    ziel = st.text_input("Athleten-Name / Kader", value="Skisprung Kader")
+    modus = st.selectbox("Steuerungs-Ebene", ["Einzelathlet", "Kader / Profil"])
+    aktive_kader = list(st.session_state.skisprung_kader_db.keys())
+    if modus == "Einzelathlet":
+        ziel = st.selectbox("Athlet wählen", aktive_kader)
+        aktuelle_daten = st.session_state.skisprung_kader_db[ziel]
+    else:
+        ziel = st.selectbox("Kader wählen", aktive_kader)
+        aktuelle_daten = st.session_state.skisprung_kader_db[ziel]
+
     geschlecht_wahl = st.selectbox("Geschlecht (Hormoneller Status)", ["Männlich", "Weiblich"])
+
 with c2:
-    alter = st.number_input("Alter (Jahre)", min_value=10, max_value=40, value=18)
-    groesse = st.number_input("Körpergröße (m)", min_value=1.30, max_value=2.15, value=1.75, step=0.01)
+    alter = st.number_input("Alter (Jahre)", min_value=10, max_value=40, value=int(aktuelle_daten["alter"]), disabled=(st.session_state.auth_modus == "gast"))
+    groesse = st.number_input("Körpergröße (m)", min_value=1.30, max_value=2.15, value=float(aktuelle_daten["groesse"]), step=0.01, disabled=(st.session_state.auth_modus == "gast"))
+
 with c3:
-    ft = st.selectbox("Fasertyp", ["Sprungkraft (Fast-Twitch IIx)", "Schnelligkeit", "Hybrid"])
-    reife = st.selectbox("Entwicklungsstatus", ["Spätentwickler (Retardiert)", "Normalentwickler", "Frühentwickler (Akzeleriert)"], index=1)
+    ft_liste = ["Sprungkraft (Fast-Twitch IIx)", "Schnelligkeit", "Hybrid"]
+    reife_liste = ["Spätentwickler (Retardiert)", "Normalentwickler", "Frühentwickler (Akzeleriert)"]
+    ft_idx = ft_liste.index(aktuelle_daten["fasertyp"]) if aktuelle_daten["fasertyp"] in ft_liste else 0
+    r_idx = 0 if "Spät" in aktuelle_daten["reife"] else 2 if "Früh" in aktuelle_daten["reife"] else 1
+    
+    ft = st.selectbox("Fasertyp", ft_liste, index=ft_idx, disabled=(st.session_state.auth_modus == "gast"))
+    reife = st.selectbox("Entwicklungsstatus", reife_liste, index=r_idx, disabled=(st.session_state.auth_modus == "gast"))
+
 with c4:
     te_wahl = st.selectbox("Trainingseinheit (Modul)", [
         "TE 1: Ansteuerung & Kommando-Sprints",
@@ -99,10 +122,24 @@ with c4:
         "TE 11: Neuromuskuläre Maximalrekrutierung",
         "TE 12: Spezifische Wettkampf-Synthese"
     ])
-    sbe_ziel = st.text_input("SBE (Beanspruchung)", value="SR 1")
+    sbe_ziel = st.text_input("SBE (Beanspruchung)", value=aktuelle_daten["sbe"], disabled=(st.session_state.auth_modus == "gast"))
+
+# Neuer Athlet anlegen (Trainer-Modus)
+if modus == "Einzelathlet" and st.session_state.auth_modus == "trainer":
+    st.markdown("<br>", unsafe_allow_html=True)
+    neuer_name = st.text_input("Neuen Athleten-Namen eingeben (zum Speichern):", value="")
+    if st.button("Athleten-Profil in Datenbank speichern"):
+        if neuer_name:
+            st.session_state.skisprung_kader_db[neuer_name] = {
+                "alter": int(alter), "groesse": float(groesse),
+                "fasertyp": ft, "reife": reife, "sbe": sbe_ziel
+            }
+            st.success(f"Athlet {neuer_name} erfolgreich angelegt.")
+            st.rerun()
+
 st.markdown("</div>", unsafe_allow_html=True)
 
-# Hardware-Logik für Zusatzlasten
+# Hardware-Logik für Zusatzlasten (Sperre ab U16)
 reife_intern = "Spätentwickler" if "Spät" in reife else "Normalentwickler"
 if int(alter) <= 14 and reife_intern == "Spätentwickler":
     zl_speed_jumper = "GZ Entlastung"
@@ -120,7 +157,6 @@ farben = {
     "Cool-Down": "#F2F2F2"
 }
 
-# 12-Einheiten-Datenbank (Skisprung Spezifik)
 einheiten_db = {
     "TE 1: Ansteuerung & Kommando-Sprints": [
         {"block": "Vorbereitung", "uebung": "Mobilisation Kapsel-Band", "s": "1", "w": "5 Min", "zl": "–", "int": "Leicht", "p": "–", "fokus": "Gelenkschmiere"},
@@ -208,7 +244,7 @@ einheiten_db = {
         {"block": "Block 3: Kraft", "uebung": "Leg Speed Curler (Beincurl)", "s": "3", "w": "20 Wdh", "zl": "Körpergewicht", "int": "Submaximal", "p": "60s", "fokus": "Ischiocrurale Sicherung"},
         {"block": "Cool-Down", "uebung": "Auslaufen", "s": "1", "w": "300m", "zl": "–", "int": "Locker", "p": "–", "fokus": "Aktive Erholung"}
     ],
-    "TE 12: Spezifische Wettkampf-Synthese": [
+    "TE 12: Spezifische Trainingsteuerung-Synthese": [
         {"block": "Vorbereitung", "uebung": "Spez. Erw. (STL locker/freq.)", "s": "4", "w": "60m", "zl": "–", "int": "80% Vmax", "p": "Trinkp.", "fokus": "Systemaktivierung"},
         {"block": "Block 1: Reiz", "uebung": "Reaktive Mehrfachsprünge (Barriere)", "s": "3", "w": "8 Knt.", "zl": "–", "int": "Maximal reaktiv", "p": "120s", "fokus": "Minimale Kontaktzeit"},
         {"block": "Block 2: Komplex", "uebung": "Spezifische Anlauf-Imitation", "s": "4", "w": "5 Wdh", "zl": zl_speed_jumper, "int": "Wettkampf", "p": "180s", "fokus": "Absprung-Präzision & Flugphase"},
@@ -220,7 +256,7 @@ einheiten_db = {
 aktuelle_te_daten = einheiten_db.get(te_wahl, einheiten_db["TE 1: Ansteuerung & Kommando-Sprints"])
 
 def generiere_html_tabelle(daten, athlet, geschlecht, ft, sbe, te_titel):
-    html = f"""
+    raw_html = f"""
     <div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
         <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
         <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {athlet} | <strong>Geschlecht:</strong> {geschlecht} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe}</p>
@@ -241,7 +277,7 @@ def generiere_html_tabelle(daten, athlet, geschlecht, ft, sbe, te_titel):
     """
     for row in daten:
         bg_color = farben.get(row["block"], "#FFFFFF")
-        html += f"""
+        raw_html += f"""
             <tr style="background-color: {bg_color};">
               <td style="padding: 6px 8px; border: 1px solid #D9D9D9; font-weight: bold; color: #000000 !important;">{row['block']}</td>
               <td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row['uebung']}</td>
@@ -253,8 +289,8 @@ def generiere_html_tabelle(daten, athlet, geschlecht, ft, sbe, te_titel):
               <td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;"></td>
             </tr>
         """
-    html += "</tbody></table></div>"
-    return html
+    raw_html += "</tbody></table></div>"
+    return textwrap.dedent(raw_html)
 
 st.markdown(generiere_html_tabelle(aktuelle_te_daten, ziel, geschlecht_wahl, ft, sbe_ziel, te_wahl.split(":")[0]), unsafe_allow_html=True)
 
@@ -263,5 +299,5 @@ st.markdown("""<div style="text-align: center; margin: 30px 0;"><button onclick=
 
 col_f1, col_f2, col_f3 = st.columns([1, 2, 1])
 with col_f2:
-    st.markdown("""<div class="footer-box"><h2 style="color: #66fcf1 !important; margin-bottom: 10px; font-family: Arial, sans-serif;">Aufgeben gilt nicht!</h2><p style="color: #ffffff; font-size: 14px; letter-spacing: 1px;">DOC ATHLETIC EVOLUTION - SKISPRINGEN 35.1</p></div>""", unsafe_allow_html=True)
+    st.markdown("""<div class="footer-box"><h2 style="color: #66fcf1 !important; margin-bottom: 10px; font-family: Arial, sans-serif;">Aufgeben gilt nicht!</h2><p style="color: #ffffff; font-size: 14px; letter-spacing: 1px;">DOC ATHLETIC EVOLUTION - SKISPRINGEN 35.2</p></div>""", unsafe_allow_html=True)
     lade_bild(["Foto.jpg", "Foto.jpg.jpg", "foto.jpg", "foto.jpg.jpg"], use_col=True)
