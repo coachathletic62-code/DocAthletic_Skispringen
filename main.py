@@ -261,20 +261,48 @@ aktuelle_te_daten = einheiten_db.get(te_wahl, einheiten_db["TE 1: Ansteuerung & 
 
 te_titel = te_wahl.split(":")[0]
 
+st.markdown("""
+<style>
+div[data-testid="stMarkdownContainer"] table td,
+div[data-testid="stMarkdownContainer"] table td *,
+table td,
+table td span {
+    color: #000000 !important;
+    font-weight: bold !important;
+}
+div[data-testid="stMarkdownContainer"] table th,
+table th,
+table th * {
+    color: #FFFFFF !important;
+}
+div.stDownloadButton > button {
+    background-color: #66fcf1 !important;
+    border: 2px solid #45a29e !important;
+}
+div.stDownloadButton > button *,
+div.stDownloadButton > button p,
+div.stDownloadButton > button span {
+    color: #000000 !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 html_matrix = f"""<div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
 <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
 <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {ziel} | <strong>Geschlecht:</strong> {geschlecht_wahl} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe_ziel}</p>
 <table style="width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid #7F7F7F;">
 <thead>
 <tr style="background-color: #1F4E78; text-align: left;">
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 15%; color: #FFFFFF !important;">Block / Phase</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 25%; color: #FFFFFF !important;">Trainingsmittel / Übung</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%; text-align: center; color: #FFFFFF !important;">Sätze</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 14%; color: #FFFFFF !important;">Wdh. / Distanz</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 13%; color: #FFFFFF !important;">Zusatzlast (ZL)</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 10%; color: #FFFFFF !important;">Intensität</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 7%; text-align: center; color: #FFFFFF !important;">Pause</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%; color: #FFFFFF !important;">SBE(Ist)</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 15%;">Block / Phase</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 25%;">Trainingsmittel / Übung</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%; text-align: center;">Sätze</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 14%;">Wdh. / Distanz</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 13%;">Zusatzlast (ZL)</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 10%;">Intensität</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 7%; text-align: center;">Pause</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%;">SBE(Ist)</th>
 </tr>
 </thead>
 <tbody>"""
@@ -282,14 +310,14 @@ html_matrix = f"""<div style="background-color: #111111; padding: 20px; border: 
 for row in aktuelle_te_daten:
     bg_color = farben.get(row["block"], "#FFFFFF")
     html_matrix += f"""<tr style="background-color: {bg_color};">
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; font-weight: bold;"><span style="color: #000000 !important; font-weight: bold;">{row['block']}</span></td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;">{row['uebung']}</span></td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;"><span style="color: #000000 !important;">{row['s']}</span></td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;">{row['w']}</span></td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;">{row['zl']}</span></td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;">{row['int']}</span></td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;"><span style="color: #000000 !important;">{row['p']}</span></td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;"></span></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['block']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['uebung']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;">{row['s']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['w']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['zl']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['int']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;">{row['p']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"></td>
 </tr>"""
 
 html_matrix += "</tbody></table></div>"
@@ -312,4 +340,4 @@ with col_f2:
         <p style="color: #ffb703 !important; font-size: 16px; font-weight: bold; margin: 8px 0;">»Was du fühlst, ist nicht das, was du kannst.«</p>
         <p style="color: #ffffff !important; font-size: 13px; letter-spacing: 1px; margin-top: 5px;">DOC ATHLETIC EVOLUTION - SKISPRINGEN 35.2</p>
     </div>""", unsafe_allow_html=True)
-    lade_bild(["Foto.jpg", "Foto.jpg.jpg", "foto.jpg", "foto.jpg.jpg"], use_col=True)
+    lade_bild(["Foto.jpg", "Foto.JPG", "foto.jpg", "foto.JPG", "Foto.png", "foto.png", "Foto.jpeg", "foto.jpeg", "Foto.jpg.jpg", "foto.jpg.jpg"], use_col=True)
