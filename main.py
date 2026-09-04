@@ -1,11 +1,10 @@
 # ==============================================================================
 # DOC ATHLETIC EVOLUTION - SKISPRINGEN (Version 35.2)
-# Architektur: Fehlerbereinigte HTML-Rendering (Dedent), Kader-Datenbank & Trainingsteuerung
+# Architektur: Fehlerbereinigte HTML-Rendering, Kader-Datenbank & Trainingsteuerung
 # ==============================================================================
 import streamlit as st
 import pandas as pd
 import os
-import textwrap
 
 st.set_page_config(page_title="Doc Athletic Evolution - Skispringen 35.2", layout="wide", initial_sidebar_state="collapsed")
 
@@ -258,7 +257,6 @@ einheiten_db = {
 }
 
 aktuelle_te_daten = einheiten_db.get(te_wahl, einheiten_db["TE 1: Ansteuerung & Kommando-Sprints"])
-
 te_titel = te_wahl.split(":")[0]
 
 st.markdown("""
@@ -380,13 +378,7 @@ st.markdown(html_tempo, unsafe_allow_html=True)
 # TRAININGSMATRIX
 # ==========================================
 html_matrix = f"""<meta charset="utf-8">
-<style>
-@page { size: landscape; margin: 10mm; }
-body { font-family: Arial, sans-serif; background-color: #000000; color: #ffffff; padding: 10px; }
-table.matrix-table td, table.matrix-table td * { color: #000000 !important; font-weight: bold !important; }
-table.matrix-table th { color: #FFFFFF !important; font-weight: bold !important; }
-</style>
-<div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px; font-family: Arial, sans-serif;">
+<div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
 <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
 <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {ziel} | <strong>Geschlecht:</strong> {geschlecht_wahl} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe_ziel}</p>
 <table class="matrix-table" style="width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid #7F7F7F;">
@@ -407,14 +399,14 @@ table.matrix-table th { color: #FFFFFF !important; font-weight: bold !important;
 for row in aktuelle_te_daten:
     bg_color = farben.get(row["block"], "#FFFFFF")
     html_matrix += f"""<tr style="background-color: {bg_color};">
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['block']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['uebung']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center; color: #000000; font-weight: bold;">{row['s']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['w']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['zl']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['int']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center; color: #000000; font-weight: bold;">{row['p']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;"></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['block']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['uebung']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;">{row['s']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['w']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['zl']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['int']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;">{row['p']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"></td>
 </tr>"""
 
 html_matrix += "</tbody></table></div>"
