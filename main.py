@@ -159,17 +159,21 @@ farben = {
 
 einheiten_db = {
     "TE 1: Ansteuerung & Kommando-Sprints": [
-        {"block": "Vorbereitung", "uebung": "Mobilisation Kapsel-Band", "s": "1", "w": "5 Min", "zl": "–", "int": "Leicht", "p": "–", "fokus": "Gelenkschmiere"},
-        {"block": "Block 1: ABC", "uebung": "Fußgelenksprünge", "s": "3", "w": "30m", "zl": "–", "int": "80%", "p": "60s", "fokus": "Reaktivität"},
-        {"block": "Block 1: ABC", "uebung": "Kniehebe- & Anferslauf", "s": "3", "w": "20m", "zl": "–", "int": "Frequenz", "p": "90s", "fokus": "Bodenkontakt"},
-        {"block": "Block 1: ABC", "uebung": "Überkreuz- & Wechselsprünge", "s": "3", "w": "25m", "zl": "–", "int": "Dynamisch", "p": "90s", "fokus": "Beckenstabilität"},
-        {"block": "Block 1: Reiz", "uebung": "Kommando-Sprint (Start: Bauchlage)", "s": "2", "w": "20m", "zl": "–", "int": "Maximal", "p": "120s", "fokus": "Minimierung Latenzzeit"},
-        {"block": "Block 1: Reiz", "uebung": "Kommando-Sprint (Start: Rückenlage)", "s": "2", "w": "20m", "zl": "–", "int": "Maximal", "p": "120s", "fokus": "Minimierung Latenzzeit"},
-        {"block": "Block 1: Reiz", "uebung": "Kommando-Sprint (Start: Liegestütz)", "s": "2", "w": "20m", "zl": "–", "int": "Maximal", "p": "120s", "fokus": "Minimierung Latenzzeit"},
-        {"block": "Block 1: Reiz", "uebung": "Kommando-Sprint (Start: Hockstart)", "s": "2", "w": "20m", "zl": "–", "int": "Maximal", "p": "120s", "fokus": "Minimierung Latenzzeit"},
-        {"block": "Block 1: Reiz", "uebung": "Kommando-Sprint (Start: Stand)", "s": "2", "w": "20m", "zl": "–", "int": "Maximal", "p": "120s", "fokus": "Minimierung Latenzzeit"},
-        {"block": "Cool-Down", "uebung": "Auslaufen & Tonus-Regulation", "s": "1", "w": "300m", "zl": "–", "int": "Regenerativ", "p": "–", "fokus": "ZNS Erholung"}
-    ],
+            {"block": "Vorbereitung", "uebung": "Mobilisation Kapsel-Band-Apparat & Sprunggelenke", "s": "1", "w": "8 Min", "zl": "-", "int": "Leicht", "p": "-"},
+            {"block": "Block 1: ABC", "uebung": "Fußgelenksprünge (Reaktiv-Fokus)", "s": "3", "w": "20m", "zl": "-", "int": "Frequenz", "p": "60s"},
+            {"block": "Block 1: ABC", "uebung": "Kniehebelauf & Anfersen im Wechsel", "s": "3", "w": "20m", "zl": "-", "int": "Frequenz", "p": "60s"},
+            {"block": "Block 1: ABC", "uebung": "Stechhub- & Nachstellschritte (Laterale Kette)", "s": "3", "w": "15m", "zl": "-", "int": "Dynamisch", "p": "60s"},
+            {"block": "Block 1: Reiz", "uebung": "Kommando-Sprint (Start: Bauchlage)", "s": "2", "w": "20m", "zl": "-", "int": "Maximal", "p": "120s"},
+            {"block": "Block 1: Reiz", "uebung": "Kommando-Sprint (Start: Rückenlage)", "s": "2", "w": "20m", "zl": "-", "int": "Maximal", "p": "120s"},
+            {"block": "Block 1: Reiz", "uebung": "Kommando-Sprint (Start: Liegestütz)", "s": "2", "w": "20m", "zl": "-", "int": "Maximal", "p": "120s"},
+            {"block": "Block 1: Reiz", "uebung": "Kommando-Sprint (Start: Stand / Drop)", "s": "2", "w": "20m", "zl": "-", "int": "Maximal", "p": "120s"},
+            {"block": "Block 2: Komplex", "uebung": "Squat-Stoß-Jumps (Explosivkraft IIx)", "s": "4", "w": "6 Wdh.", "zl": "Power Bar", "int": "Maximal", "p": "90s"},
+            {"block": "Block 2: Komplex", "uebung": "Speed Jumper / Squat Master (RFD-Fokus)", "s": "3", "w": "8 Wdh.", "zl": "GZ-Entlastung", "int": "Explosiv", "p": "90s"},
+            {"block": "Block 3: Kraft", "uebung": "Leg Speed Curler (Ischiocrurale Sicherung)", "s": "3", "w": "10 Wdh.", "zl": "Körpergewicht", "int": "Widerstand", "p": "60s"},
+            {"block": "Block 3: Kraft", "uebung": "T-Bar Rumpf-Rotationsstabilität", "s": "3", "w": "10 Wdh.", "zl": "15 kg", "int": "Submaximal", "p": "60s"},
+            {"block": "Cool-Down", "uebung": "Auslaufen (Shuttle niedrigintensiv)", "s": "1", "w": "400m", "zl": "-", "int": "Sehr locker", "p": "-"},
+            {"block": "Cool-Down", "uebung": "Regeneration & Tonus-Regulation (Faszien)", "s": "1", "w": "10 Min", "zl": "-", "int": "Passiv", "p": "-"}
+        ],
     "TE 2: Reaktive Kraftausdauer": [
         {"block": "Vorbereitung", "uebung": "Spezifische Erwärmung (STL)", "s": "3", "w": "60m", "zl": "–", "int": "80%", "p": "Gehp.", "fokus": "Temperaturerhöhung"},
         {"block": "Block 1: Reiz", "uebung": "Drop Jumps (niedrige Box)", "s": "4", "w": "8 Wdh", "zl": "–", "int": "Max", "p": "120s", "fokus": "Minimale Bodenkontaktzeit"},
