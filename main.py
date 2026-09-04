@@ -257,40 +257,27 @@ aktuelle_te_daten = einheiten_db.get(te_wahl, einheiten_db["TE 1: Ansteuerung & 
 
 te_titel = te_wahl.split(":")[0]
 
-html_matrix = f"""
-<div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
-    <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
-    <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {ziel} | <strong>Geschlecht:</strong> {geschlecht_wahl} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe_ziel}</p>
-    <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #000000; border: 1px solid #7F7F7F;">
-      <thead>
-        <tr style="background-color: #1F4E78; color: #FFFFFF; font-weight: bold; text-align: left;">
-          <th style="padding: 8px; border: 1px solid #7F7F7F; width: 15%;">Block / Phase</th>
-          <th style="padding: 8px; border: 1px solid #7F7F7F; width: 25%;">Trainingsmittel / Übung</th>
-          <th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%; text-align: center;">Sätze</th>
-          <th style="padding: 8px; border: 1px solid #7F7F7F; width: 14%;">Wdh. / Distanz</th>
-          <th style="padding: 8px; border: 1px solid #7F7F7F; width: 13%;">Zusatzlast (ZL)</th>
-          <th style="padding: 8px; border: 1px solid #7F7F7F; width: 10%;">Intensität</th>
-          <th style="padding: 8px; border: 1px solid #7F7F7F; width: 7%; text-align: center;">Pause</th>
-          <th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%;">SBE(Ist)</th>
-        </tr>
-      </thead>
-      <tbody>
-"""
+html_matrix = f"""<div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
+<h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
+<p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {ziel} | <strong>Geschlecht:</strong> {geschlecht_wahl} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe_ziel}</p>
+<table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #000000; border: 1px solid #7F7F7F;">
+<thead>
+<tr style="background-color: #1F4E78; color: #FFFFFF; font-weight: bold; text-align: left;">
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 15%;">Block / Phase</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 25%;">Trainingsmittel / Übung</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%; text-align: center;">Sätze</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 14%;">Wdh. / Distanz</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 13%;">Zusatzlast (ZL)</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 10%;">Intensität</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 7%; text-align: center;">Pause</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%;">SBE(Ist)</th>
+</tr>
+</thead>
+<tbody>"""
 
 for row in aktuelle_te_daten:
     bg_color = farben.get(row["block"], "#FFFFFF")
-    html_matrix += f"""
-        <tr style="background-color: {bg_color};">
-          <td style="padding: 6px 8px; border: 1px solid #D9D9D9; font-weight: bold; color: #000000 !important;">{row['block']}</td>
-          <td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row['uebung']}</td>
-          <td style="padding: 6px 8px; border: 1px solid #D9D9D9; text-align: center; color: #000000 !important;">{row['s']}</td>
-          <td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row['w']}</td>
-          <td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row['zl']}</td>
-          <td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row['int']}</td>
-          <td style="padding: 6px 8px; border: 1px solid #D9D9D9; text-align: center; color: #000000 !important;">{row['p']}</td>
-          <td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;"></td>
-        </tr>
-    """
+    html_matrix += f'<tr style="background-color: {bg_color};"><td style="padding: 6px 8px; border: 1px solid #D9D9D9; font-weight: bold; color: #000000 !important;">{row["block"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row["uebung"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; text-align: center; color: #000000 !important;">{row["s"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row["w"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row["zl"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row["int"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; text-align: center; color: #000000 !important;">{row["p"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;"></td></tr>'
 
 html_matrix += "</tbody></table></div>"
 
