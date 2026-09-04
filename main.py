@@ -337,7 +337,7 @@ col_f1, col_f2, col_f3 = st.columns([1, 2, 1])
 with col_f2:
     st.markdown("""<div style="text-align: center; border: 2px solid #45a29e; border-radius: 8px; padding: 15px; background-color: #111111;">
         <h2 style="color: #66fcf1 !important; margin-bottom: 5px; font-family: Arial, sans-serif;">Aufgeben gilt nicht!</h2>
-        <p style="color: #ffb703 !important; font-size: 16px; font-weight: bold; margin: 8px 0;">»Was du fühlst, ist nicht das, was du kannst.«</p>
+        <p style="color: #ffb703 !important; font-size: 16px; font-weight: bold; margin: 8px 0;">»Das was du fühlst, ist nicht das, was du kannst.«</p>
         <p style="color: #ffffff !important; font-size: 13px; letter-spacing: 1px; margin-top: 5px;">DOC ATHLETIC EVOLUTION - SKISPRINGEN 35.2</p>
     </div>""", unsafe_allow_html=True)
     lade_bild(["Foto.jpg", "Foto.JPG", "foto.jpg", "foto.JPG", "Foto.png", "foto.png", "Foto.jpeg", "foto.jpeg", "Foto.jpg.jpg", "foto.jpg.jpg"], use_col=True)
