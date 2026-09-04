@@ -255,27 +255,11 @@ einheiten_db = {
 
 aktuelle_te_daten = einheiten_db.get(te_wahl, einheiten_db["TE 1: Ansteuerung & Kommando-Sprints"])
 
-def generiere_html_tabelle(daten, athlet, geschlecht, ft, sbe, te_titel):
-    raw_html = f"""
-    <div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
-        <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
-        <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {athlet} | <strong>Geschlecht:</strong> {geschlecht} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe}</p>
-        <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #000000; border: 1px solid #7F7F7F;">
-          <thead>
-            <tr style="background-color: #1F4E78; color: #FFFFFF; font-weight: bold; text-align: left;">
-              <th style="padding: 8px; border: 1px solid #7F7F7F; width: 15%;">Block / Phase</th>
-              <th style="padding: 8px; border: 1px solid #7F7F7F; width: 25%;">Trainingsmittel / Übung</th>
-              <th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%; text-align: center;">Sätze</th>
-              <th style="padding: 8px; border: 1px solid #7F7F7F; width: 14%;">Wdh. / Distanz</th>
-              <th style="padding: 8px; border: 1px solid #7F7F7F; width: 13%;">Zusatzlast (ZL)</th>
-              <th style="padding: 8px; border: 1px solid #7F7F7F; width: 10%;">Intensität</th>
-              <th style="padding: 8px; border: 1px solid #7F7F7F; width: 7%; text-align: center;">Pause</th>
-              <th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%;">SBE(Ist)</th>
-            </tr>
 te_titel = te_wahl.split(":")[0]
+
 html_matrix = f"""
 <div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
-    <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}
+    <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
     <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {ziel} | <strong>Geschlecht:</strong> {geschlecht_wahl} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe_ziel}</p>
     <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #000000; border: 1px solid #7F7F7F;">
       <thead>
@@ -292,6 +276,7 @@ html_matrix = f"""
       </thead>
       <tbody>
 """
+
 for row in aktuelle_te_daten:
     bg_color = farben.get(row["block"], "#FFFFFF")
     html_matrix += f"""
@@ -306,6 +291,7 @@ for row in aktuelle_te_daten:
           <td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;"></td>
         </tr>
     """
+
 html_matrix += "</tbody></table></div>"
 
 st.markdown(html_matrix, unsafe_allow_html=True)
@@ -317,7 +303,6 @@ st.download_button(
     file_name=f"Skispringen_{ziel.replace(' ', '_')}.html",
     mime="text/html"
 )
-
 
 col_f1, col_f2, col_f3 = st.columns([1, 2, 1])
 with col_f2:
