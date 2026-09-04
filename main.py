@@ -263,17 +263,20 @@ te_titel = te_wahl.split(":")[0]
 
 st.markdown("""
 <style>
-div[data-testid="stMarkdownContainer"] table td,
-div[data-testid="stMarkdownContainer"] table td *,
-table td,
-table td span {
+table.matrix-table td,
+table.matrix-table td * {
     color: #000000 !important;
     font-weight: bold !important;
 }
-div[data-testid="stMarkdownContainer"] table th,
-table th,
-table th * {
+table.tempo-table td,
+table.tempo-table td * {
     color: #FFFFFF !important;
+    font-weight: bold !important;
+}
+table.tempo-table th,
+table.matrix-table th {
+    color: #FFFFFF !important;
+    font-weight: bold !important;
 }
 div.stDownloadButton > button {
     background-color: #66fcf1 !important;
@@ -289,10 +292,97 @@ div.stDownloadButton > button span {
 </style>
 """, unsafe_allow_html=True)
 
+# ==========================================
+# DIAGNOSTIK & TEMPOTABELLEN (PARALLELSTART)
+# ==========================================
+st.markdown("---")
+st.markdown("<h3 style='color: #66fcf1;'>Diagnostik-Modul (Skisprung-Spezifische Korrelation: Parallelstart)</h3>", unsafe_allow_html=True)
+
+col_d1, col_d2 = st.columns(2)
+with col_d1:
+    ref_30m = st.number_input("30m-Referenz Parallelstart / Tiefe Hocke (s)", min_value=3.00, max_value=7.00, value=4.20, step=0.05)
+with col_d2:
+    st.markdown("""
+    <div style="background-color: #111111; padding: 10px; border-left: 3px solid #45a29e; border-radius: 4px; margin-top: 5px;">
+        <p style="margin: 0; color: #aaaaaa; font-size: 13px;"><strong>Biomechanischer Fokus:</strong></p>
+        <p style="margin: 0; color: #ffffff; font-size: 13px;">Bilaterale Streckerkette (Typ-IIx-Rekrutierung) ohne Startblock-Hebel.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# Mathematische Korrelation aus dem parallelen Hockstand
+f_tempo = ref_30m / 4.20
+t_20 = round(3.10 * f_tempo, 2)
+t_30 = round(ref_30m, 2)
+t_50 = round(6.60 * f_tempo, 2)
+t_75 = round(9.85 * f_tempo, 2)
+t_100 = round(13.10 * f_tempo, 2)
+t_150 = round(20.20 * f_tempo, 2)
+
+col_k1, col_k2 = st.columns(2)
+with col_k1:
+    st.markdown(f"""
+    <div style="background-color: #111111; padding: 12px; border: 1px solid #333333; border-radius: 6px;">
+        <p style="color: #66fcf1; font-weight: bold; margin-bottom: 5px; font-size: 14px;">Aktuelle Ist-Korrelation (Parallelstart)</p>
+        <p style="color: #ffffff; font-size: 13px; margin: 0;">20m: <strong>{t_20:.2f} s</strong> | 30m: <strong>{t_30:.2f} s</strong> | 50m: <strong>{t_50:.2f} s</strong><br>75m: <strong>{t_75:.2f} s</strong> | 100m: <strong>{t_100:.2f} s</strong> | 150m: <strong>{t_150:.2f} s</strong></p>
+    </div>
+    """, unsafe_allow_html=True)
+with col_k2:
+    st.markdown(f"""
+    <div style="background-color: #111111; padding: 12px; border: 1px solid #333333; border-radius: 6px;">
+        <p style="color: #66fcf1; font-weight: bold; margin-bottom: 5px; font-size: 14px;">Skisprung Zubringer-Diagnostik</p>
+        <p style="color: #ffffff; font-size: 13px; margin: 0;">Absprung-Explosivität (20m): <strong>{t_20:.2f} s</strong><br>Vmax-Absicherung (50m): <strong>{t_50:.2f} s</strong> | Laktat-Puffer (150m): <strong>{t_150:.2f} s</strong></p>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("<h4 style='color: #ffffff; margin-top: 20px; margin-bottom: 10px;'>Tempotabellen (Echte Live-Korrelation bis 150m)</h4>", unsafe_allow_html=True)
+
+distanzen_tempo = [
+    ("20m", t_20),
+    ("30m", t_30),
+    ("50m", t_50),
+    ("75m", t_75),
+    ("100m", t_100),
+    ("150m", t_150)
+]
+
+html_tempo = """<table class="tempo-table" style="width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 25px; border: 1px solid #45a29e;">
+<thead>
+<tr style="background-color: #1F4E78; text-align: center;">
+<th style="padding: 8px; border: 1px solid #45a29e; text-align: left; width: 20%;">Distanz</th>
+<th style="padding: 8px; border: 1px solid #45a29e; width: 16%;">100%</th>
+<th style="padding: 8px; border: 1px solid #45a29e; width: 16%;">95%</th>
+<th style="padding: 8px; border: 1px solid #45a29e; width: 16%;">90%</th>
+<th style="padding: 8px; border: 1px solid #45a29e; width: 16%;">80%</th>
+<th style="padding: 8px; border: 1px solid #45a29e; width: 16%;">70%</th>
+</tr>
+</thead>
+<tbody>"""
+
+for dist_name, t_val in distanzen_tempo:
+    val_100 = f"{t_val:.1f} s"
+    val_95 = f"{(t_val / 0.95):.1f} s"
+    val_90 = f"{(t_val / 0.90):.1f} s"
+    val_80 = f"{(t_val / 0.80):.1f} s"
+    val_70 = f"{(t_val / 0.70):.1f} s"
+    html_tempo += f"""<tr style="background-color: #1a1a1a; text-align: center;">
+<td style="padding: 6px 8px; border: 1px solid #333333; text-align: left; font-weight: bold;"><span style="color: #66fcf1 !important;">{dist_name}</span></td>
+<td style="padding: 6px 8px; border: 1px solid #333333;">{val_100}</td>
+<td style="padding: 6px 8px; border: 1px solid #333333;">{val_95}</td>
+<td style="padding: 6px 8px; border: 1px solid #333333;">{val_90}</td>
+<td style="padding: 6px 8px; border: 1px solid #333333;">{val_80}</td>
+<td style="padding: 6px 8px; border: 1px solid #333333;">{val_70}</td>
+</tr>"""
+
+html_tempo += "</tbody></table>"
+st.markdown(html_tempo, unsafe_allow_html=True)
+
+# ==========================================
+# TRAININGSMATRIX
+# ==========================================
 html_matrix = f"""<div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
 <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
 <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {ziel} | <strong>Geschlecht:</strong> {geschlecht_wahl} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe_ziel}</p>
-<table style="width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid #7F7F7F;">
+<table class="matrix-table" style="width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid #7F7F7F;">
 <thead>
 <tr style="background-color: #1F4E78; text-align: left;">
 <th style="padding: 8px; border: 1px solid #7F7F7F; width: 15%;">Block / Phase</th>
@@ -337,7 +427,7 @@ col_f1, col_f2, col_f3 = st.columns([1, 2, 1])
 with col_f2:
     st.markdown("""<div style="text-align: center; border: 2px solid #45a29e; border-radius: 8px; padding: 15px; background-color: #111111;">
         <h2 style="color: #66fcf1 !important; margin-bottom: 5px; font-family: Arial, sans-serif;">Aufgeben gilt nicht!</h2>
-        <p style="color: #ffb703 !important; font-size: 16px; font-weight: bold; margin: 8px 0;">»Das was du fühlst, ist nicht das, was du kannst.«</p>
+        <p style="color: #ffb703 !important; font-size: 16px; font-weight: bold; margin: 8px 0;">»Das, was du fühlst, ist nicht das, was du kannst.«</p>
         <p style="color: #ffffff !important; font-size: 13px; letter-spacing: 1px; margin-top: 5px;">DOC ATHLETIC EVOLUTION - SKISPRINGEN 35.2</p>
     </div>""", unsafe_allow_html=True)
-    lade_bild(["Foto.jpg", "Foto.JPG", "foto.jpg", "foto.JPG", "Foto.png", "foto.png", "Foto.jpeg", "foto.jpeg", "Foto.jpg.jpg", "foto.jpg.jpg"], use_col=True)
+    lade_bild(["Foto.jpg", "Foto.JPG", "foto.jpg", "foto.JPG", "Foto.jpeg", "foto.jpeg", "Foto.png", "foto.png"], use_col=True)
