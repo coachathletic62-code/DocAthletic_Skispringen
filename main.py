@@ -272,9 +272,10 @@ def generiere_html_tabelle(daten, athlet, geschlecht, ft, sbe, te_titel):
               <th style="padding: 8px; border: 1px solid #7F7F7F; width: 7%; text-align: center;">Pause</th>
               <th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%;">SBE(Ist)</th>
             </tr>
+te_titel = te_wahl.split(":")[0]
 html_matrix = f"""
 <div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
-    <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_wahl.split(":")[0]}</h3>
+    <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}
     <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {ziel} | <strong>Geschlecht:</strong> {geschlecht_wahl} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe_ziel}</p>
     <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #000000; border: 1px solid #7F7F7F;">
       <thead>
