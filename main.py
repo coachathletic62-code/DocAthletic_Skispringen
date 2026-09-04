@@ -379,7 +379,14 @@ st.markdown(html_tempo, unsafe_allow_html=True)
 # ==========================================
 # TRAININGSMATRIX
 # ==========================================
-html_matrix = f"""<div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
+html_matrix = f"""<meta charset="utf-8">
+<style>
+@page { size: landscape; margin: 10mm; }
+body { font-family: Arial, sans-serif; background-color: #000000; color: #ffffff; padding: 10px; }
+table.matrix-table td, table.matrix-table td * { color: #000000 !important; font-weight: bold !important; }
+table.matrix-table th { color: #FFFFFF !important; font-weight: bold !important; }
+</style>
+<div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px; font-family: Arial, sans-serif;">
 <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
 <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {ziel} | <strong>Geschlecht:</strong> {geschlecht_wahl} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe_ziel}</p>
 <table class="matrix-table" style="width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid #7F7F7F;">
@@ -400,14 +407,14 @@ html_matrix = f"""<div style="background-color: #111111; padding: 20px; border: 
 for row in aktuelle_te_daten:
     bg_color = farben.get(row["block"], "#FFFFFF")
     html_matrix += f"""<tr style="background-color: {bg_color};">
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['block']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['uebung']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;">{row['s']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['w']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['zl']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;">{row['int']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;">{row['p']}</td>
-<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['block']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['uebung']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center; color: #000000; font-weight: bold;">{row['s']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['w']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['zl']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;">{row['int']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center; color: #000000; font-weight: bold;">{row['p']}</td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; color: #000000; font-weight: bold;"></td>
 </tr>"""
 
 html_matrix += "</tbody></table></div>"
@@ -419,7 +426,7 @@ st.download_button(
     label="💾 Trainingsplan als HTML direkt im Download-Ordner speichern",
     data=html_matrix,
     file_name=f"Skispringen_{ziel.replace(' ', '_')}_{te_titel}.html",
-    mime="text/html"
+    mime="text/html; charset=utf-8"
 )
 
 st.markdown("---")
