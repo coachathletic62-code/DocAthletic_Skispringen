@@ -264,38 +264,52 @@ te_titel = te_wahl.split(":")[0]
 html_matrix = f"""<div style="background-color: #111111; padding: 20px; border: 2px solid #45a29e; border-radius: 8px;">
 <h3 style="border-bottom: 2px solid #66fcf1; padding-bottom: 5px; margin-top: 0; color: #66fcf1 !important;">MATRIX SKISPRINGEN - {te_titel}</h3>
 <p style="color: #ffffff !important; font-size: 15px;"><strong>Athlet:</strong> {ziel} | <strong>Geschlecht:</strong> {geschlecht_wahl} | <strong>Fasertyp:</strong> {ft} | <strong>SBE:</strong> {sbe_ziel}</p>
-<table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #000000; border: 1px solid #7F7F7F;">
+<table style="width: 100%; border-collapse: collapse; font-size: 13px; border: 1px solid #7F7F7F;">
 <thead>
-<tr style="background-color: #1F4E78; color: #FFFFFF; font-weight: bold; text-align: left;">
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 15%;">Block / Phase</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 25%;">Trainingsmittel / Übung</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%; text-align: center;">Sätze</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 14%;">Wdh. / Distanz</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 13%;">Zusatzlast (ZL)</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 10%;">Intensität</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 7%; text-align: center;">Pause</th>
-<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%;">SBE(Ist)</th>
+<tr style="background-color: #1F4E78; text-align: left;">
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 15%; color: #FFFFFF !important;">Block / Phase</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 25%; color: #FFFFFF !important;">Trainingsmittel / Übung</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%; text-align: center; color: #FFFFFF !important;">Sätze</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 14%; color: #FFFFFF !important;">Wdh. / Distanz</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 13%; color: #FFFFFF !important;">Zusatzlast (ZL)</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 10%; color: #FFFFFF !important;">Intensität</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 7%; text-align: center; color: #FFFFFF !important;">Pause</th>
+<th style="padding: 8px; border: 1px solid #7F7F7F; width: 8%; color: #FFFFFF !important;">SBE(Ist)</th>
 </tr>
 </thead>
 <tbody>"""
 
 for row in aktuelle_te_daten:
     bg_color = farben.get(row["block"], "#FFFFFF")
-    html_matrix += f'<tr style="background-color: {bg_color};"><td style="padding: 6px 8px; border: 1px solid #D9D9D9; font-weight: bold; color: #000000 !important;">{row["block"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row["uebung"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; text-align: center; color: #000000 !important;">{row["s"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row["w"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row["zl"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;">{row["int"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; text-align: center; color: #000000 !important;">{row["p"]}</td><td style="padding: 6px 8px; border: 1px solid #D9D9D9; color: #000000 !important;"></td></tr>'
+    html_matrix += f"""<tr style="background-color: {bg_color};">
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; font-weight: bold;"><span style="color: #000000 !important; font-weight: bold;">{row['block']}</span></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;">{row['uebung']}</span></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;"><span style="color: #000000 !important;">{row['s']}</span></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;">{row['w']}</span></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;">{row['zl']}</span></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;">{row['int']}</span></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F; text-align: center;"><span style="color: #000000 !important;">{row['p']}</span></td>
+<td style="padding: 6px 8px; border: 1px solid #7F7F7F;"><span style="color: #000000 !important;"></span></td>
+</tr>"""
 
 html_matrix += "</tbody></table></div>"
 
 st.markdown(html_matrix, unsafe_allow_html=True)
 
-st.markdown("---")
+st.markdown("<br>", unsafe_allow_html=True)
 st.download_button(
     label="💾 Trainingsplan als HTML direkt im Download-Ordner speichern",
     data=html_matrix,
-    file_name=f"Skispringen_{ziel.replace(' ', '_')}.html",
+    file_name=f"Skispringen_{ziel.replace(' ', '_')}_{te_titel}.html",
     mime="text/html"
 )
 
+st.markdown("---")
 col_f1, col_f2, col_f3 = st.columns([1, 2, 1])
 with col_f2:
-    st.markdown("""<div class="footer-box"><h2 style="color: #66fcf1 !important; margin-bottom: 10px; font-family: Arial, sans-serif;">Aufgeben gilt nicht!</h2><p style="color: #ffffff; font-size: 14px; letter-spacing: 1px;">DOC ATHLETIC EVOLUTION - SKISPRINGEN 35.2</p></div>""", unsafe_allow_html=True)
+    st.markdown("""<div style="text-align: center; border: 2px solid #45a29e; border-radius: 8px; padding: 15px; background-color: #111111;">
+        <h2 style="color: #66fcf1 !important; margin-bottom: 5px; font-family: Arial, sans-serif;">Aufgeben gilt nicht!</h2>
+        <p style="color: #ffb703 !important; font-size: 16px; font-weight: bold; margin: 8px 0;">»Was du fühlst, ist nicht das, was du kannst.«</p>
+        <p style="color: #ffffff !important; font-size: 13px; letter-spacing: 1px; margin-top: 5px;">DOC ATHLETIC EVOLUTION - SKISPRINGEN 35.2</p>
+    </div>""", unsafe_allow_html=True)
     lade_bild(["Foto.jpg", "Foto.jpg.jpg", "foto.jpg", "foto.jpg.jpg"], use_col=True)
