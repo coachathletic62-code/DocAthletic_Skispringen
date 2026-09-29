@@ -1,0 +1,109 @@
+DOC ATHLETIC – Skispringen 330: Upload-Prüfung vom 29.09.2026
+
+19 neue Integrationsprüfungen je Modul bestanden; 76 über die vier Module.
+Durchgeführt mit Streamlit AppTest und getrennten temporären SQLite-Datenbanken.
+Für 120_1 und 125 wurde zusätzlich genau die bereitgestellte Sicherung mit sechs
+Fußballprofilen eingelesen, bestätigt gespeichert und unverändert wieder geladen.
+Diese Athletendaten sind nicht Bestandteil des Softwarepakets.
+
+Geprüft: sichtbarer Einstieg bei leerem Kader; fremde und beschädigte JSONs;
+Vorschau ohne Schreibzugriff; Bestätigung bei Ersetzung; Zurücksetzen der
+Bestätigung bei Dateitausch; Wiederholung ohne Duplikate; JSON-Wiederherstellung;
+CSV, XLSX, ODS und digital lesbare PDF-Tabelle; gleiche Tabelle erneut laden;
+Erhalt vorhandener Profile; Scan-PDF und ungültige Datei ohne Speichern eines
+alten Entwurfs; Wiederladen in neuer Sitzung; keine Importrechte im Gastzugang.
+
+Bestehende Funktionsprüfungen für Trainingspläne, Zyklen und Speicherung wurden
+erneut ausgeführt. Die eigentlichen Trainings- und Speichermodule sind
+unverändert; die eigenen Trainingsfunktionen in Skispringen ebenfalls.
+
+Keine Live-Bereitstellung, kein Endgerät-Sichttest und keine neue Zusicherung
+zur Dauerhaftigkeit des lokalen Hostingspeichers. PDF-Testvorlagen wurden
+extrahiert und eine davon zusätzlich gerendert und visuell geprüft.
+
+Wiederholung des Upload-Tests mit synthetischen Daten:
+  python -m pip install -r tests/requirements.txt
+  python tests/test_kader_upload.py
+
+Die ergänzende reportlab-Abhängigkeit wird nur für PDF-Testvorlagen benötigt.
+Normale App-Installation: requirements.txt im App-Ordner.
+
+SHA-256 der aktuellen Dateien:
+main.py: eb33b88736dba923a4f9d4212b1517723bfe619e6e48f584453ef886a6b6eecf
+doc_athletic_upload.py: 24c5d5550ac05b75a3dfd061746f7e158782ba7ad1aa3c5a6fb014d6f8400641
+requirements.txt: a25de0aa3428919fa70d80290975f055bcdf05b47c7bc7d11ccc86308be8e06c
+
+BISHERIGES PRÜFPROTOKOLL (bezogen auf den früheren Stand)
+
+SKISPRINGEN 330 – TECHNISCHES PRÜFPROTOKOLL
+28.09.2026 · Ohne Sprachmodul
+
+QUELLEN
+DocAthletic_Modul3_Skispringen_305.zip als neuester auffindbarer Skisprungstand.
+DocAthletic_120_1.zip als technische Vergleichsgrundlage.
+Keine Übernahme von Fußballübungen oder einer Fußball-Laufzeitkorrelation.
+
+BEHOBENE PUNKTE
+- Neuer Zyklus verlangte kein ausdrücklich gewähltes Einstiegsniveau.
+  Nun zwingende Trainerwahl TE 1–15; separate Zählung neuer Zyklen bis TE 16.
+- Woche und Trainingseinheit waren bei 1/2 TE pro Woche leicht zu verwechseln.
+  Neue Zyklen zeigen die fortlaufende TE; Woche und Einheitentyp werden daraus
+  abgeleitet. Bestandszyklen behalten die alte Zählung.
+- Folgeempfehlungen konnten Einheiten anderer Zyklen berücksichtigen.
+  Nun nur vorherige Einheiten desselben Zyklus.
+- Archivwechsel konnte eine ältere 30-m-Referenz wieder einsetzen.
+  Aktuelle Messreferenz bleibt erhalten; Einstiegsniveau gehört zum Zyklus.
+- Die Ist-Eingabe begann ohne Übungszuordnung. Nun werden die tatsächlich
+  gespeicherten Übungsnamen angeboten; unberührte Zeilen bleiben ungewertet.
+- Identische erneute Speicherung erzeugte unnötige Datenbankrevisionen.
+  Nun keine zusätzliche Revision bei unverändertem Inhalt.
+- HTML-Stilangaben gelangten in den Textplan. Nun ausgefiltert.
+- Neue 30-m-Eingabe in der Tempotabelle war nur eine Vorschau.
+  Nun ausdrücklicher Speicherknopf für die Profilreferenz.
+- Gleichdatierte Sprungtests: nun wird der zuletzt erfasste Test für den
+  aktuellen Symmetriehinweis gewählt.
+- Plan- und Ist-Korrekturverläufe werden strenger auf ihre Zuordnung geprüft.
+- Alte Entwürfe in der Oberfläche werden nach Profiländerung zurückgesetzt;
+  gespeicherte Pläne werden dabei nicht überschrieben.
+- Widersprüchlicher 35s/15s-Takt aus Übungsnamen entfernt. Die gewählte
+  Stationsorganisation enthält die maßgebliche Pausenangabe.
+
+ERFOLGREICHE AUTOMATISIERTE PRÜFUNGEN
+tests/test_regression.py:
+  12 Profile × 2 Wochenhäufigkeiten × 15 Einstiegsniveaus × 16 TE = 5.760.
+  Prüfung auf vollständige Planzeilen, genau einen Erwärmungsauftakt,
+  Retest am Zyklusende und unveränderte Eingabeprofile.
+  Einstiegswirkung, Ablehnung ungültiger Einstiege, Wechsel A–B–A–B,
+  Erhalt aktueller Tests und Referenzen, getrennte Zykluseinstellungen.
+  Keine zyklusfremden oder zukünftigen Folgeempfehlungen.
+  Originalplan, Ist-Korrekturverlauf und getrennte Basis-/TE1-Zuordnung.
+  SQLite speichern/laden, Konflikt einer veralteten Sitzung, unveränderter
+  Speicherstand, JSON-Sicherung und Wiederherstellung.
+  Wiederholbare Migration eines repräsentativen 305-Profils ohne Umdeutung
+  seines Wochenzyklus; Rückkehr zum alten Zyklus nach Anlage eines neuen.
+  Fehlende/ungültige Laufreferenzen und ausdrücklich aktiviertes Modell.
+  Speicherung der letzten Einheit, Druck-HTML/Text und leere Ist-Zeilen.
+  Keine Audioaufnahme oder Transkriptionsanbindung im Quellcode.
+
+tests/test_ui.py (Streamlit AppTest):
+  Falscher/richtiger Zugang, Athlet anlegen und speichern, Plan speichern,
+  Ist-Dauer speichern/korrigieren, Trainerhinweise und Planhistorie,
+  neuer Zyklus mit ausgewähltem Niveau, Retestplan speichern,
+  Archivwechsel in beide Richtungen, 30-m-Referenz speichern,
+  Sprungtest speichern, ausschließlich lesender Gastzugang,
+  erneute Anmeldung und Wiederladen der gespeicherten Daten.
+
+PRÜFUMGEBUNG
+Isolierte App-Kopien mit eigenen Testdatenbanken, Streamlit 1.64.0 und
+Pandas 3.0.6. Keine produktiven Daten oder Zugangsdaten verwendet.
+Die Tests sind im Paket enthalten und nach Installation ausführbar:
+  python tests/test_regression.py
+  python tests/test_ui.py
+
+NICHT ABGENOMMEN
+Echte PostgreSQL-Verbindung, konkrete produktive Hosting-Konfiguration,
+Handy-/Laptop-Browserdarstellung und vorhandene persönliche Sicherungsdateien.
+Die Altbestandsprüfung verwendet repräsentative Testdaten, keinen vollständigen
+persönlichen Kader. Die Quellenlasten wurden technisch übernommen, nicht als
+individuell passende Trainingsdosierung oder wissenschaftlich validierte
+Maschinen-Normwerte bestätigt. Trainerprüfung der Anwendung bleibt erforderlich.

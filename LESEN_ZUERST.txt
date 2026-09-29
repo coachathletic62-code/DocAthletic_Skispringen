@@ -1,0 +1,137 @@
+DOC ATHLETIC – Skispringen 330
+Stand: 29.09.2026 · Gemeinsamer Kader-Upload
+
+DIE ÄNDERUNG
+Ein gemeinsamer Einstieg „Kaderdaten hochladen“ für JSON-Sicherungen,
+Excel (.xlsx), LibreOffice (.ods), CSV und lesbare PDF-Tabellen.
+Bei leerem Kader erscheint dieser Upload direkt am Anfang.
+Bei vorhandenen Personen führt „Kaderdaten hochladen“ zum selben Ablauf.
+Es wird nicht allein durch die Dateiauswahl gespeichert.
+
+INSTALLATION IN DER BEREITS VORHANDENEN VERSION Skispringen 330
+1. Eine vorhandene, gefüllte Sicherung aufbewahren. Falls aktuell Athleten
+   angezeigt werden, deren aktuellen Stand zusätzlich sichern. Eine leere
+   Sicherung ersetzt keine frühere gefüllte Sicherung.
+2. Dieses ZIP entpacken. Im bisherigen App-Ordner in GitHub diese drei
+   Dateien gemeinsam hochladen:
+     main.py                    ersetzen
+     doc_athletic_upload.py      neu hinzufügen
+     requirements.txt           ersetzen
+   Dazu „Add file“ → „Upload files“ und anschließend „Commit changes“.
+3. Den bisherigen App-Ordner, Einstiegspfad, Bilder, Zugangseinstellungen
+   und Datenbankeinstellungen beibehalten. Keinen neuen Versionsordner
+   als App-Einstieg anlegen. Die übrigen Programmdateien bleiben nötig.
+4. Streamlit übernimmt den Stand und installiert die PDF-Abhängigkeit.
+   Anschließend anmelden. Der gemeinsame Kader-Upload ist nun sichtbar.
+
+Das ZIP enthält außerdem alle zur jeweiligen Version gehörenden
+Programmdateien. Bei einer Neuinstallation werden sämtliche Programmdateien
+und requirements.txt benötigt. Die drei Dateien oben sind das Update für
+bereits genau diese installierte Version. Tests und Textanleitungen müssen
+nicht in die laufende App hochgeladen werden.
+
+BEDIENUNG
+1. „Kaderdaten hochladen“ öffnen; bei leerem Kader ist der Bereich schon offen.
+2. Die vorhandene Datei auswählen.
+3. Erkannte Personen und Angaben prüfen.
+4. „Kader übernehmen“ anklicken.
+
+JSON wird automatisch als Sicherung erkannt. Bei leerem Kader genügt nach
+der Vorschau der Übernahme-Button. Bei vorhandenem Kader muss die Ersetzung
+zusätzlich ausdrücklich bestätigt werden. Die Vorschau zeigt entfernte
+Personen an. Eine identische Sicherung erzeugt keine weiteren Kopien.
+Sicherungen bleiben sportartspezifisch; eine Fußball-Sicherung wird nicht
+ungeprüft in Basketball- oder Skisprungprofile umgewandelt.
+
+Tabellen zeigen eine Vorschau; fehlende Pflichtangaben müssen ergänzt
+werden. Eine Tabelle enthält nur ihre eingetragenen Werte, keine dadurch
+erfundene Trainingshistorie. Die bestehenden Zuordnungs- und Prüfregeln des
+jeweiligen Moduls bleiben erhalten. Basketball bietet weiterhin die Auswahl
+zwischen Kader, Lauf- und Sprungtests sowie die Spaltenzuordnung.
+
+PDF: Unterstützt werden digital lesbare Tabellen mit Zelllinien und einer
+Namensüberschrift. Bei mehreren Seiten muss die Kopfzeile wiederholt werden;
+die Tabellen müssen dieselben Spalten haben. Jede erkannte Zeile prüfen.
+Scans, Fotos, Fließtextberichte und uneindeutige Tabellen werden verständlich
+abgewiesen. Es gibt hier noch keine OCR-/KI-Texterkennung. PDF-Grenze: 10 MB,
+30 Seiten; keine automatische Übernahme nur eines lesbaren Teilbestands.
+Die Verarbeitung erfolgt in der App, ohne externen Auslesedienst.
+
+SPEICHERUNG
+Dieses Update vereinfacht die Wiederherstellung, richtet aber keinen neuen
+Dauerspeicher ein. Auf flüchtigem Streamlit-Speicher bleibt die regelmäßige
+Sicherung außerhalb der App nötig, solange keine dauerhafte externe
+Datenbank eingerichtet ist. Es wurde hier keine Live-App aktualisiert.
+
+SKISPRUNG-TABELLENSPALTEN
+Name; Alter (Jahre); Geschlecht; Größe (cm); Gewicht (kg); TE pro Woche;
+30 m (s); Notiz. Name, Alter und Geschlecht sind für neue Personen nötig.
+Weitere Felder sind optional; fehlende Messwerte bleiben offen.
+Bestehende abweichende Angaben werden nicht still überschrieben.
+
+BISHERIGE FUNKTIONEN DIESER VERSION
+
+WAS SICH ÄNDERT
+Neue Athleten und neu angelegte Makrozyklen verwenden 16 Trainingseinheiten,
+unabhängig davon, ob eine oder zwei Athletikeinheiten pro Woche geplant sind.
+Bei einer TE/Woche sind es 16 Wochen; bei zwei TE/Woche 8 Wochen.
+TE 16 ist der Retest. TE 1 ist immer die erste Einheit des neuen Zyklus.
+
+NEUER MAKROZYKLUS NACH EINER PAUSE
+1. Athleten auswählen und „Makrozyklen: anlegen und wieder aufrufen“ öffnen.
+2. Eindeutigen Namen eintragen, etwa „Nach Weihnachten“.
+3. Einstiegsniveau TE 1 bis TE 15 bewusst auswählen, z. B. TE 10 oder TE 13.
+4. „Neuen Makrozyklus anlegen“ drücken.
+
+Die Wahl aktiviert die Quellenprogression ab diesem Niveau. Bei Einstieg
+TE 10 beginnt die neue TE 1 auf Stufe 10, die neue TE 2 auf Stufe 11 usw.
+Stufe 15 bildet die Obergrenze; danach wird bis zum Retest dort gehalten.
+Es findet keine automatische Einschätzung von Krankheit, Verletzung oder
+Trainingsverlust statt. Du entscheidest über den Einstieg und passt den Plan an.
+Die Umfangsprogression kann im Profil ausgesetzt werden. Dann gilt wieder
+die erste Stufe der Quellenvorlage; gespeicherte Pläne bleiben unverändert.
+
+Kraftphasen werden getrennt gesteuert. Ein neuer Zyklus startet mit 6 + 5 + 5
+Einheiten als Phasenrahmen; TE 16 bleibt der Retest. Die Freigaben für Jumps
+und Sprünge werden beim neuen Zyklus zurückgesetzt und von dir erteilt.
+Bei einer kürzeren Phasenplanung bleibt die zuletzt erreichte Phase bis zum
+Retest erhalten. Spätere Phasen einer längeren Planung werden nicht mehr
+vor dem Ende des 16-TE-Zyklus erreicht. U11/U13 behalten ihre eigene Logik.
+
+BESTEHENDE DATEN
+Vorhandene Zyklen aus 305 behalten ihre bisherige Wochenzählung. Erst ein
+bewusst angelegter neuer Zyklus wechselt auf die 16-TE-Struktur.
+Beim Wechsel zu einem archivierten Zyklus werden dessen Einstellungen
+wieder geladen. Aktuelle Identität, Trainingsklasse, Tests und die aktuelle
+30-m-Referenz bleiben erhalten. Bei geänderter Trainingsklasse werden alte
+Kraftvorgaben nicht unbesehen aus dem Archiv zurückgesetzt.
+
+Gespeicherte Sollpläne, ursprüngliche Planstände und Ist-Korrekturen bleiben
+erhalten. Neue Vorlagen ändern bestehende Pläne erst nach deinem Speichern.
+Folgeempfehlungen berücksichtigen nur frühere Einheiten desselben Zyklus.
+Die Ist-Tabelle enthält die Übungen des gespeicherten Plans als Eingabehilfe;
+eine vorausgefüllte, aber nicht ausgefüllte Zeile gilt nicht als Durchführung.
+
+TESTS UND TEMPOTABELLE
+Fünfer-Hop links/rechts, Fünfer-Schlusssprung und Lauftests bleiben getrennt.
+Die Tempotabelle verwendet die skisprungspezifische 30-m-Parallelstartreferenz
+und die bisherigen Strecken von 20 bis 150 m. Weitere Zeiten werden nur
+bei ausdrücklicher Wahl des Quellenmodells angezeigt und als Modellwerte
+bezeichnet. Eine geänderte 30-m-Zeit lässt sich jetzt direkt in dieser
+Ansicht mit „30-m-Referenz im Profil speichern“ dauerhaft übernehmen.
+Dies ist eine manuelle Referenzentscheidung, keine automatische Bestwert-
+übernahme und keine Spracheingabe.
+
+SPEICHERUNG
+Bestehende SQLite-Datenbanknamen und getrennte PostgreSQL-Tabellen bleiben
+kompatibel. Bei einer konfigurierten externen Datenbank wird ein Fehler
+nicht durch unbemerkte lokale Ersatzspeicherung verdeckt. Gleichzeitige
+Änderungen aus einer anderen Sitzung werden als Konflikt zurückgewiesen.
+Auf Hosting mit flüchtigem Dateisystem weiterhin regelmäßig JSON sichern.
+Keine Zugangscodes oder persönlichen Athletendaten liegen diesem Paket bei.
+
+PRÜFUNG UND GRENZEN
+5.760 Planungskombinationen und die wesentlichen Bedien- und Speicherwege
+wurden automatisiert geprüft; Details stehen in PRUEFPROTOKOLL.txt.
+Die laufende Streamlit-App, dein konkreter Browser und ein externer
+Datenbankserver wurden dabei nicht verändert oder live getestet.
